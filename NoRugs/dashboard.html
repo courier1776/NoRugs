@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — NoRugs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/shell.css" />
+<link rel="stylesheet" href="css/components.css" />
+<style>
+  .dashboard-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.dashboard-toolbar input,.dashboard-toolbar select{min-height:44px}.dashboard-toolbar input{min-width:260px;flex:1}
+  .coin-logo{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1px solid var(--hairline);background:#fff}.risk-cell{display:flex;align-items:center;gap:10px}.table-link{color:inherit;text-decoration:none}.table-link:hover .cell-asset-name{color:var(--blue-700)}
+  .state-card{padding:52px 24px;text-align:center;color:var(--text-secondary)}.state-card strong{display:block;color:var(--text-primary);font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:8px}.spinner{width:34px;height:34px;border:3px solid var(--blue-100);border-top-color:var(--blue-700);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}@keyframes spin{to{transform:rotate(360deg)}}
+  .connection-banner{display:none;padding:12px 16px;border-radius:14px;margin-bottom:16px}.connection-banner.show{display:block}.connection-banner.error{background:var(--risk-danger-200);color:var(--risk-danger-900)}
+  .table-meta{font-family:var(--font-mono);font-size:var(--text-3xs);color:var(--text-secondary)}
+  @media(max-width:700px){.dashboard-toolbar{align-items:stretch}.dashboard-toolbar>*{width:100%!important;min-width:0!important}}
+</style>
+</head>
+<body class="modern-blue-ui">
+<div class="app-shell">
+  <aside class="rail" data-rail></aside><div class="rail-scrim"></div>
+  <div class="main-col"><header class="topbar" data-topbar></header>
+    <main class="content">
+      <div class="page-head">
+        <div><span class="page-eyebrow">Live market intelligence</span><h1 class="page-title">Cryptocurrency risk dashboard</h1><p class="page-sub">Browse live market data and preliminary NoRugs risk assessments from your PostgreSQL database.</p></div>
+        <a href="coin-analysis.html" class="btn btn-primary">Analyze a coin</a>
+      </div>
+      <div id="connection-banner" class="connection-banner error"></div>
+      <div class="grid g-4" style="margin-bottom:var(--sp-5)">
+        <div class="panel panel-body stat-block"><span class="stat-label">Tracked assets</span><span id="stat-total" class="stat-value">—</span><span class="stat-delta up">Live database records</span></div>
+        <div class="panel panel-body stat-block"><span class="stat-label">Low risk</span><span id="stat-low" class="stat-value">—</span><span class="stat-delta up">Score below 25</span></div>
+        <div class="panel panel-body stat-block"><span class="stat-label">Moderate risk</span><span id="stat-moderate" class="stat-value">—</span><span class="stat-delta">Score 25–49</span></div>
+        <div class="panel panel-body stat-block"><span class="stat-label">High / critical</span><span id="stat-high" class="stat-value">—</span><span class="stat-delta down">Needs additional review</span></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="panel-title">Market risk monitor</div><div class="panel-title-sub" id="result-count">LOADING LIVE ASSETS</div></div>
+          <div class="dashboard-toolbar">
+            <input id="coin-search" type="text" placeholder="Search name, symbol, or CoinGecko ID" />
+            <select id="risk-filter"><option value="">All risk levels</option><option>LOW</option><option>MODERATE</option><option>HIGH</option><option>CRITICAL</option><option>UNKNOWN</option></select>
+            <select id="sort-filter"><option value="rank">Market rank</option><option value="risk-desc">Highest risk</option><option value="risk-asc">Lowest risk</option><option value="market-cap">Market cap</option><option value="change">24h movers</option></select>
+          </div>
+        </div>
+        <div class="panel-body tight">
+          <div id="loading-state" class="state-card"><div class="spinner"></div><strong>Loading market data</strong>Connecting to the NoRugs API…</div>
+          <div id="empty-state" class="state-card" hidden><strong>No matching assets</strong>Try a different search term or risk level.</div>
+          <div id="table-wrap" style="overflow-x:auto" hidden>
+            <table class="data-table"><thead><tr><th>#</th><th>Asset</th><th>Price</th><th>24h</th><th>Market cap</th><th>Volume</th><th>Risk</th><th>Updated</th></tr></thead><tbody id="coins-body"></tbody></table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="js/gauge.js"></script><script src="js/api.js"></script><script src="js/formatters.js"></script><script src="js/shell.js"></script><script src="js/dashboard.js"></script>
+</body></html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alerts — NoRugs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/shell.css" />
+<link rel="stylesheet" href="css/components.css" />
+<style>
+  .alerts-layout { display: grid; grid-template-columns: 1fr 380px; gap: var(--sp-5); }
+
+  .rule-row { display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4) 0; border-bottom: 1px solid var(--paper-300); }
+  .rule-row:last-child { border-bottom: none; }
+  .rule-icon { width: 36px; height: 36px; border-radius: var(--r-md); background: var(--paper-200); border: 1px solid var(--hairline); display: flex; align-items: center; justify-content: center; flex: none; }
+  .rule-icon svg { width: 17px; height: 17px; color: var(--accent-700); }
+  .rule-body { flex: 1; }
+  .rule-title { font-family: var(--font-display); font-weight: 600; font-size: var(--text-sm); }
+  .rule-sub { font-size: var(--text-xs); color: var(--text-secondary); margin-top: 2px; }
+  .rule-scope { font-family: var(--font-mono); font-size: var(--text-3xs); color: var(--ink-400); margin-top: 4px; }
+
+  .history-item { display: flex; gap: var(--sp-3); padding: var(--sp-4) 0; border-bottom: 1px solid var(--paper-300); }
+  .history-item:last-child { border-bottom: none; }
+  .history-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; }
+  .history-dot svg { width: 14px; height: 14px; }
+  .history-text { font-size: var(--text-sm); }
+  .history-meta { font-family: var(--font-mono); font-size: 10px; color: var(--ink-400); margin-top: 3px; display: block; }
+
+  .new-rule-form { display: flex; flex-direction: column; gap: var(--sp-4); }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: var(--sp-3) 0; border-bottom: 1px solid var(--paper-300); }
+  .toggle-row:last-child { border-bottom: none; }
+  .toggle-row-label { font-size: var(--text-sm); font-family: var(--font-display); font-weight: 500; }
+  .toggle-row-sub { font-size: var(--text-xs); color: var(--text-secondary); margin-top: 1px; }
+
+  @media (max-width: 1024px) {
+    .alerts-layout { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body class="modern-blue-ui">
+<div class="app-shell">
+  <aside class="rail" data-rail></aside>
+  <div class="rail-scrim"></div>
+
+  <div class="main-col">
+    <header class="topbar" data-topbar></header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <span class="page-eyebrow">Alerts</span>
+          <h1 class="page-title">Alert rules &amp; history</h1>
+          <p class="page-sub">Get notified the moment a tracked token's risk profile changes.</p>
+        </div>
+      </div>
+
+      <div class="alerts-layout">
+        <div>
+          <!-- Active rules -->
+          <div class="panel" style="margin-bottom: var(--sp-5);">
+            <div class="panel-head">
+              <div><div class="panel-title">Active rules</div><div class="panel-title-sub">5 RULES · APPLIES TO WATCHLIST</div></div>
+              <button class="btn btn-outline btn-sm">+ New rule</button>
+            </div>
+            <div class="panel-body">
+              <div class="rule-row">
+                <div class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+                <div class="rule-body">
+                  <div class="rule-title">Risk score crosses into High risk (≥70)</div>
+                  <div class="rule-sub">Notify immediately by push and email</div>
+                  <div class="rule-scope">APPLIES TO ALL WATCHLIST TOKENS</div>
+                </div>
+                <div class="switch on"></div>
+              </div>
+              <div class="rule-row">
+                <div class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21c4-3 7-6.5 7-11a7 7 0 0 0-14 0c0 4.5 3 8 7 11z"/></svg></div>
+                <div class="rule-body">
+                  <div class="rule-title">Liquidity drops more than 20% in 1 hour</div>
+                  <div class="rule-sub">Notify immediately by push</div>
+                  <div class="rule-scope">APPLIES TO ALL WATCHLIST TOKENS</div>
+                </div>
+                <div class="switch on"></div>
+              </div>
+              <div class="rule-row">
+                <div class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="6" width="19" height="13" rx="2"/></svg></div>
+                <div class="rule-body">
+                  <div class="rule-title">Top 10 wallet concentration exceeds 55%</div>
+                  <div class="rule-sub">Daily digest by email</div>
+                  <div class="rule-scope">APPLIES TO ALL WATCHLIST TOKENS</div>
+                </div>
+                <div class="switch on"></div>
+              </div>
+              <div class="rule-row">
+                <div class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="8 4 4 12 8 20"/><polyline points="16 4 20 12 16 20"/></svg></div>
+                <div class="rule-body">
+                  <div class="rule-title">Deployer wallet opens a new contract</div>
+                  <div class="rule-sub">Notify immediately by push and email</div>
+                  <div class="rule-scope">APPLIES TO WATCHED WALLETS</div>
+                </div>
+                <div class="switch on"></div>
+              </div>
+              <div class="rule-row">
+                <div class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.5l8 3.5v6c0 5.5-4 8.5-8 9.5-4-1-8-4-8-9.5v-6z"/></svg></div>
+                <div class="rule-body">
+                  <div class="rule-title">Audit status changes</div>
+                  <div class="rule-sub">Notify immediately by email</div>
+                  <div class="rule-scope">APPLIES TO ALL WATCHLIST TOKENS</div>
+                </div>
+                <div class="switch"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- History -->
+          <div class="panel">
+            <div class="panel-head">
+              <div><div class="panel-title">Alert history</div><div class="panel-title-sub">LAST 7 DAYS</div></div>
+              <button class="btn btn-ghost btn-sm">Mark all read</button>
+            </div>
+            <div class="panel-body">
+              <div class="history-item">
+                <div class="history-dot" style="background:var(--risk-danger-200);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--risk-danger-700)" stroke-width="2"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+                <div><div class="history-text"><strong>$WAGMI</strong> liquidity dropped 41% in one transaction — now flagged high risk (score 91)</div><div class="history-meta">TODAY 14:02 UTC · RULE: LIQUIDITY DROP</div></div>
+              </div>
+              <div class="history-item">
+                <div class="history-dot" style="background:var(--risk-caution-200);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--risk-caution-700)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></div>
+                <div><div class="history-text">Deployer wallet linked to <strong>$NEBL</strong> opened a new, unverified contract</div><div class="history-meta">TODAY 13:14 UTC · RULE: NEW DEPLOYMENT</div></div>
+              </div>
+              <div class="history-item">
+                <div class="history-dot" style="background:var(--blue-100);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-700)" stroke-width="2"><path d="M5 12l4 4 10-10"/></svg></div>
+                <div><div class="history-text"><strong>$ORCA</strong> contract was verified and audited by a third party — score improved to 24</div><div class="history-meta">TODAY 11:40 UTC · RULE: AUDIT STATUS</div></div>
+              </div>
+              <div class="history-item">
+                <div class="history-dot" style="background:var(--risk-caution-200);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--risk-caution-700)" stroke-width="2"><rect x="2.5" y="6" width="19" height="13" rx="2"/></svg></div>
+                <div><div class="history-text">Top 10 wallets now hold 58% of <strong>$FROG</strong> supply, crossing your threshold</div><div class="history-meta">YESTERDAY 22:08 UTC · RULE: WALLET CONCENTRATION</div></div>
+              </div>
+              <div class="history-item">
+                <div class="history-dot" style="background:var(--risk-danger-200);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--risk-danger-700)" stroke-width="2"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+                <div><div class="history-text"><strong>$PUMP</strong> crossed into high risk (score 93) — liquidity fully removed</div><div class="history-meta">2 DAYS AGO · RULE: SCORE THRESHOLD</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar: new rule + channels -->
+        <div>
+          <div class="panel" style="margin-bottom: var(--sp-5);">
+            <div class="panel-head"><div class="panel-title">Create a rule</div></div>
+            <div class="panel-body new-rule-form">
+              <div class="field">
+                <label>Condition</label>
+                <select>
+                  <option>Risk score crosses above…</option>
+                  <option>Liquidity drops by…</option>
+                  <option>Wallet concentration exceeds…</option>
+                  <option>Deployer opens new contract</option>
+                  <option>Audit status changes</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Threshold</label>
+                <input type="text" placeholder="e.g. 70" />
+              </div>
+              <div class="field">
+                <label>Applies to</label>
+                <select>
+                  <option>All watchlist tokens</option>
+                  <option>Specific token…</option>
+                  <option>Watched wallets</option>
+                </select>
+              </div>
+              <button class="btn btn-primary btn-block">Create rule</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Notification channels</div></div>
+            <div class="panel-body">
+              <div class="toggle-row">
+                <div><div class="toggle-row-label">Push notifications</div><div class="toggle-row-sub">Browser and mobile app</div></div>
+                <div class="switch on"></div>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-row-label">Email</div><div class="toggle-row-sub">jordan@example.com</div></div>
+                <div class="switch on"></div>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-row-label">SMS</div><div class="toggle-row-sub">Not connected</div></div>
+                <div class="switch"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/gauge.js"></script>
+<script src="js/shell.js"></script>
+<script>
+  NoRugsShell.renderShell('alerts.html');
+  document.querySelectorAll('.switch').forEach(sw => sw.addEventListener('click', () => sw.classList.toggle('on')));
+</script>
+</body>
+</html>
