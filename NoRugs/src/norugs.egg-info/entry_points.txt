@@ -1,0 +1,3 @@
+[console_scripts]
+norugs-scrape = norugs_scraper.main:run
+norugs-web = norugs_scraper.web:run
