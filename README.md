@@ -60,11 +60,30 @@ Node.js is **not** required — the frontend is plain HTML/CSS/JavaScript with n
 3. Let the installer finish, then open **pgAdmin 4** from your Start Menu / Applications folder.
 4. In pgAdmin, expand **Servers → PostgreSQL** in the left sidebar and enter the password you just set. If it connects without an error, PostgreSQL is running correctly.
 
-> macOS users who prefer **Postgres.app** instead of the installer above can use that — just note its default port is often **5433**, not 5432. Whichever port your server actually uses is the one you'll put in the `.env` file in Step 8.
+> macOS users who prefer **Postgres.app** instead of the installer above can use that — just note its default port is often **5433**, not 5432. Whichever port your server actually uses is the one you'll put in the `.env` file in Step 9.
 
 ---
 
-## Step 3 — Get the project files
+## Step 3 — Install VS Code
+
+VS Code is the editor you'll use to open the project folder, edit the `.env` configuration file, and run all the terminal commands in this guide.
+
+### Windows
+1. Go to https://code.visualstudio.com and click **Download for Windows**.
+2. Run the installer. On the "Select Additional Tasks" screen, it's worth checking **"Add to PATH"** and **"Add 'Open with Code' action"** — both are checked by default and make VS Code easier to launch later.
+3. Finish the install, then open VS Code from the Start Menu to confirm it launches.
+
+### macOS
+1. Go to https://code.visualstudio.com and click **Download for Mac**.
+2. Open the downloaded `.zip` file — it will expand into a **Visual Studio Code** application.
+3. Drag **Visual Studio Code** into your **Applications** folder.
+4. Open it from Applications (the first time, macOS may ask you to confirm you want to open an app downloaded from the internet — click **Open**).
+
+You don't need to sign in or create an account — VS Code opens straight to a usable editor.
+
+---
+
+## Step 4 — Get the project files
 
 **Option A — Download the ZIP** (simplest, no Git required)
 1. Download the NoRugs project ZIP file.
@@ -79,17 +98,17 @@ cd NoRugs
 
 ---
 
-## Step 4 — Open the project
+## Step 5 — Open the project
 
 1. Open **VS Code**.
-2. **File → Open Folder** and select the `NoRugs` folder from Step 3.
+2. **File → Open Folder** and select the `NoRugs` folder from Step 4.
 3. Open a terminal inside VS Code: **Terminal → New Terminal**.
 
 Every command from here on should be run from this terminal, from inside the `NoRugs` folder.
 
 ---
 
-## Step 5 — Create a virtual environment
+## Step 6 — Create a virtual environment
 
 A virtual environment keeps this project's Python packages separate from everything else on your computer.
 
@@ -109,7 +128,7 @@ After activating, your terminal prompt should now begin with `(.venv)`. Run ever
 
 ---
 
-## Step 6 — Install the project's dependencies
+## Step 7 — Install the project's dependencies
 
 With the virtual environment active:
 
@@ -124,7 +143,7 @@ This reads `pyproject.toml` and installs everything the project needs (Flask, ht
 
 ---
 
-## Step 7 — Create the database
+## Step 8 — Create the database
 
 1. Open **pgAdmin 4**.
 2. Right-click **Databases → Create → Database…**
@@ -136,7 +155,7 @@ This reads `pyproject.toml` and installs everything the project needs (Flask, ht
 
 ---
 
-## Step 8 — Load the database schema
+## Step 9 — Load the database schema
 
 The project ships a complete schema (over twenty tables) in `database/schema.sql`. Load it one of two ways:
 
@@ -154,7 +173,7 @@ Enter your PostgreSQL password when prompted. (On Windows, `psql` must be on you
 
 ---
 
-## Step 9 — Configure the connection (`.env` file)
+## Step 10 — Configure the connection (`.env` file)
 
 The application reads its configuration from a file named `.env` in the project's root folder. This file does not exist yet — create it now.
 
@@ -198,7 +217,7 @@ The app runs and scores assets without any API keys, using public endpoints. Add
 
 ---
 
-## Step 10 — Start the application
+## Step 11 — Start the application
 
 With your virtual environment still active:
 
@@ -206,25 +225,25 @@ With your virtual environment still active:
 norugs-web
 ```
 
-(or `python run.py` if you installed with `requirements.txt` in Step 6.)
+(or `python run.py` if you installed with `requirements.txt` in Step 7.)
 
 You should see log output ending with something like `Running on http://127.0.0.1:5000`. Leave this terminal window open — closing it stops the server.
 
 ---
 
-## Step 11 — Verify it's working
+## Step 12 — Verify it's working
 
 Open a web browser (Chrome or Edge recommended) and visit each of these in turn:
 
 1. **`http://127.0.0.1:5000/`** — the NoRugs landing page should load.
-2. **`http://127.0.0.1:5000/api/health`** — should show JSON containing `"status": "ok"` and confirmation the database is connected. If this shows an error instead, re-check your `.env` values from Step 9 and make sure PostgreSQL is running.
+2. **`http://127.0.0.1:5000/api/health`** — should show JSON containing `"status": "ok"` and confirmation the database is connected. If this shows an error instead, re-check your `.env` values from Step 10 and make sure PostgreSQL is running.
 3. **`http://127.0.0.1:5000/dashboard.html`** — the live dashboard.
 
 > Always use an `http://127.0.0.1:5000/...` address. Do not open the HTML files directly by double-clicking them from your file explorer (a `file:///...` address) — the page will load but won't be able to reach the API.
 
 The first time the server starts, it automatically kicks off a background data-collection cycle (because `LIVE_UPDATE_ON_START=true`). Give it 30–60 seconds, then refresh the dashboard — the stat cards should populate with real tracked assets and risk scores.
 
-If you'd rather trigger data collection manually instead of waiting, open a **second** terminal, activate the virtual environment again (Step 5), and run:
+If you'd rather trigger data collection manually instead of waiting, open a **second** terminal, activate the virtual environment again (Step 6), and run:
 
 ```bash
 norugs-scrape --provider all
@@ -232,7 +251,7 @@ norugs-scrape --provider all
 
 ---
 
-## Step 12 — Explore the app
+## Step 13 — Explore the app
 
 With the server running, these pages are all available:
 
@@ -274,7 +293,7 @@ Then open `http://127.0.0.1:5000/dashboard.html`. Make sure PostgreSQL is runnin
 Python wasn't added to PATH during install. Re-run the Python installer and check "Add python.exe to PATH" (Windows), or use `python3` instead of `python` (macOS).
 
 **`command not found: norugs-web`**
-The virtual environment isn't active, or Step 6 didn't complete. Run:
+The virtual environment isn't active, or Step 7 didn't complete. Run:
 ```bash
 source .venv/bin/activate   # or .venv\Scripts\activate on Windows
 python -m pip install -e .
@@ -283,10 +302,10 @@ python -m pip install -e .
 **`/api/health` shows a database error, or the dashboard is empty**
 - Confirm PostgreSQL is actually running (check pgAdmin, or Postgres.app's menu bar icon on macOS).
 - Re-check `DB_HOST`, `DB_PORT`, `DB_USER`, and `DB_PASSWORD` in `.env` against your actual PostgreSQL setup.
-- Confirm the `norugs` database exists and that Step 8 (loading the schema) completed without errors.
+- Confirm the `norugs` database exists and that Step 9 (loading the schema) completed without errors.
 
 **Dashboard loads but shows no assets / all zeros**
-Data collection may not have run yet. Wait about a minute after starting the server, or trigger it manually with `norugs-scrape --provider all` (Step 11).
+Data collection may not have run yet. Wait about a minute after starting the server, or trigger it manually with `norugs-scrape --provider all` (Step 12).
 
 **`Port 5000 is already in use`**
 Something else on your computer is using port 5000. Start on a different port instead:
@@ -296,7 +315,7 @@ set PORT=5001 && norugs-web # Windows (Command Prompt)
 ```
 Then visit `http://127.0.0.1:5001/dashboard.html`.
 
-**`psql: command not found` (Step 8, Option B)**
+**`psql: command not found` (Step 9, Option B)**
 Use Option A (pgAdmin's Query Tool) instead — no command-line tool required.
 
 ---
@@ -305,11 +324,11 @@ Use Option A (pgAdmin's Query Tool) instead — no command-line tool required.
 
 ```
 NoRugs/
-├── .env                    # your local configuration (created in Step 9, not shared/committed)
+├── .env                    # your local configuration (created in Step 10, not shared/committed)
 ├── run.py                  # entry point: python run.py
 ├── pyproject.toml          # dependency list and CLI command definitions
 ├── config/assets.json      # which cryptocurrencies/repos to track
-├── database/schema.sql     # full PostgreSQL schema (load this in Step 8)
+├── database/schema.sql     # full PostgreSQL schema (load this in Step 9)
 ├── frontend/               # dashboard, coin-analysis, comparison, watchlist, alerts, wallet-analysis pages
 └── src/norugs_scraper/     # Flask app, data collector, and risk-scoring engine
 ```
