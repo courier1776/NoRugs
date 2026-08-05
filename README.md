@@ -205,7 +205,7 @@ The application reads its configuration from a file named `.env` in the project'
    COINGECKO_API_KEY=
    COINGECKO_PLAN=demo
    ETHERSCAN_API_KEY=
-   GITHUB_TOKEN=
+   GITHUB_TOKEN=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
 
    HTTP_TIMEOUT_SECONDS=30
    LOG_LEVEL=INFO
